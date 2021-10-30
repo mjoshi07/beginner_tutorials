@@ -207,4 +207,6 @@ include_directories(
 
 add_executable(talker_node src/talker.cpp)
 target_link_libraries(talker_node ${catkin_LIBRARIES})
-# add_dependencies(talker_node beginner_tutorials_generate_messages_cpp)
+
+add_executable(listener_node src/listener.cpp)
+target_link_libraries(listener_node ${catkin_LIBRARIES})
