@@ -37,5 +37,6 @@ rosrun beginner_tutorials talker_node
 ```
 * press Ctrl+Shift+t to open up a new terminal
 ```
+source ~/catkin_ws/devel/setup.bash
 rosrun beginner_tutorials listener_node
 ```
