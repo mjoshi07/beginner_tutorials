@@ -25,9 +25,9 @@
 /**
  * @file talker.cpp
  * @author mayankJoshi (mayankjoshi63@gmail.com)
- * @brief Initializes a "talker_node" which publishes on topic "chatter_bot"
+ * @brief Initializes a "talker_node" which publishes on topic "/chatter"
  * @version 0.1
- * @date 2021-10-30
+ * @date 2021-11-06
  * 
  * @copyright Copyright (c) 2021
  * 
@@ -35,9 +35,34 @@
 
 #include <ros/ros.h>
 #include <std_msgs/String.h>
+#include <beginner_tutorials/custom_string.h>
 
 #include <sstream>
 
+
+/**
+ * Default String published by talker
+ */
+extern std::string message = "Hi There, you're awesome";
+
+/**
+ * Default loop frequency, Hz
+ */
+int default_freq = 10;
+
+/**
+ * @brief Function to call service
+ * @param request Input string to service
+ * @param response Response sent by service 
+ * @return bool
+ */
+bool modify_msg(beginner_tutorials::custom_string::Request  &request,
+         beginner_tutorials::custom_string::Response &response) {
+  response.updated_string = request.input_string;
+  message = response.updated_string;
+  ROS_INFO_STREAM("Default message by talker modified to: " << message);
+  return true;
+}
 
 int main(int argc, char **argv) {
   /**
@@ -51,6 +76,35 @@ int main(int argc, char **argv) {
    * part of the ROS system.
    */
   ros::init(argc, argv, "talker_node");
+
+  // variable to store the loop frequency, set to default_freq
+  int talker_freq = default_freq;
+
+  if ( argc > 1 ) {
+    // set frequency according to parsed argument
+    talker_freq = atoi(argv[1]);
+  }
+
+  if ( talker_freq > 0 ) {
+    ROS_DEBUG_STREAM("talker publishing at "<< talker_freq << " Hz");
+
+  } else if ( talker_freq == 0 ) {
+    ROS_ERROR_STREAM("talker expects non-zero frequency");
+    ROS_WARN_STREAM("talker frequency set to default value of "
+    << default_freq << " Hz");
+
+    // set loop frequency to default value
+    talker_freq = default_freq;
+
+  } else if ( talker_freq < 0 ) {
+    ROS_FATAL_STREAM("talker expects positive value of frequency");
+    ROS_WARN_STREAM("talker frequency set to default value of "
+    << default_freq << " Hz");
+
+    // set loop frequency to default value
+    talker_freq = default_freq;
+  }
+
   /**
    * NodeHandle is the main access point to communications with the ROS system.
    * The first NodeHandle constructed will fully initialize this node, and the last
@@ -77,9 +131,12 @@ int main(int argc, char **argv) {
  */
 
   ros::Publisher chatter_pub =
-  n.advertise<std_msgs::String>("chatter_bot", 1000);
+  n.advertise<std_msgs::String>("/chatter", 10);
 
-  ros::Rate loop_rate(10);
+
+  auto server = n.advertiseService("custom_string", modify_msg);
+
+  ros::Rate loop_rate(talker_freq);
 
   /**
    * A count of how many messages we have sent. This is used to create
@@ -93,10 +150,10 @@ int main(int argc, char **argv) {
     std_msgs::String msg;
 
     std::stringstream ss;
-    ss << " Learning ROS since .... " << count;
+    ss << message << " " << count;
     msg.data = ss.str();
 
-    ROS_INFO("%s", msg.data.c_str());
+    ROS_INFO_STREAM(msg.data.c_str());
 
     /**
      * The publish() function is how you send messages. The parameter

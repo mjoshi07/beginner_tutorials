@@ -12,6 +12,12 @@ find_package(catkin REQUIRED COMPONENTS
   genmsg
 )
 
+## Generate services in the "srv" directory
+add_service_files(
+  FILES
+  custom_string.srv
+)
+
 ## Generate added messages and services
 generate_messages(DEPENDENCIES std_msgs)
 
