@@ -25,6 +25,7 @@ generate_messages(DEPENDENCIES std_msgs)
 ## Declare a catkin package
 catkin_package()
 
+
 ###########
 ## Build ##
 ###########
@@ -50,3 +51,23 @@ target_link_libraries(listener_node ${catkin_LIBRARIES})
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
 add_dependencies(listener_node beginner_tutorials_generate_messages_cpp)
+
+
+# Add rostest gtest 
+if(CATKIN_ENABLE_TESTING)
+  find_package(rostest REQUIRED)
+  add_rostest_gtest(
+  test_pub
+  test/test_pub.test
+  test/test_pub.cpp
+  )
+  target_link_libraries(
+    test_pub
+    ${catkin_LIBRARIES}
+  )
+  add_dependencies(
+    test_pub
+    talker_node
+    ${catkin_EXPORTED_TARGETS}
+  )
+endif()
