@@ -179,8 +179,11 @@ int main(int argc, char **argv) {
      */
     chatter_pub.publish(msg);
 
-
-    // comment
+    /**
+     * Broadcasts a tf frame "talk" with parent "world" 
+     * with transformation having non-zero 
+     * translational and rotational components
+     */
     br.sendTransform(tf::StampedTransform(transform,
                                           ros::Time::now(),
                                           "world",
