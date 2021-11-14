@@ -8,10 +8,13 @@
 
   <license>BSD</license>
 
+  <test_depend>gtest</test_depend>
+
   <buildtool_depend>catkin</buildtool_depend>
   <build_depend>roscpp</build_depend>
   <build_depend>tf</build_depend>
   <build_depend>std_msgs</build_depend>
+  <build_depend>roscpp</build_depend>d>
   <build_depend>genmsg</build_depend>
   <build_depend>message_generation</build_depend>
   <build_export_depend>roscpp</build_export_depend>
