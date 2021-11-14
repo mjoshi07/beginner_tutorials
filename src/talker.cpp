@@ -42,6 +42,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
 #include <ros/ros.h>
+#include <tf/transform_broadcaster.h>
 #include <std_msgs/String.h>
 #include <beginner_tutorials/custom_string.h>
 
@@ -84,6 +85,13 @@ int main(int argc, char **argv) {
    * part of the ROS system.
    */
   ros::init(argc, argv, "talker_node");
+
+  // Initialize tf broadcaster
+  tf::TransformBroadcaster br;
+  tf::Transform transform;
+
+  transform.setOrigin(tf::Vector3(1.0, 1.0, 1.0));
+  transform.setRotation(tf::Quaternion(0, 0, 1, 1));
 
   // variable to store the loop frequency, set to default_freq
   int talker_freq = default_freq;
@@ -170,6 +178,13 @@ int main(int argc, char **argv) {
      * in the constructor above.
      */
     chatter_pub.publish(msg);
+
+
+    // comment
+    br.sendTransform(tf::StampedTransform(transform,
+                                          ros::Time::now(),
+                                          "world",
+                                          "talk"));
 
     ros::spinOnce();
 
