@@ -7,6 +7,7 @@ add_compile_options(-std=c++11)
 ## Find catkin macros and libraries
 find_package(catkin REQUIRED COMPONENTS
   roscpp
+  tf
   std_msgs
   message_generation
   genmsg
