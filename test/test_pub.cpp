@@ -53,7 +53,7 @@ std::shared_ptr<ros::NodeHandle> nh;
 
 
 TEST(TestSuite, modifyString) {
-    ros::ServiceClient client = nh->serviceClient<beginner_tutorials::custom_string>(
+    auto client = nh->serviceClient<beginner_tutorials::custom_string>(
         "custom_string");
         bool exists(client.waitForExistence(ros::Duration(2)));
         EXPECT_TRUE(exists);
