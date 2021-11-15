@@ -26,7 +26,6 @@ cd ..
 catkin_make
 ```
 ## Run Instructions
-**Method 1, Running the nodes seperately**
 * Open a terminal
 ```
 roscore
@@ -45,20 +44,63 @@ rosrun beginner_tutorials talker_node 1
 source ~/catkin_ws/devel/setup.bash
 rosrun beginner_tutorials listener_node
 ```
-
-**Method 2, Running the nodes by the launch file**
+## ROS tf frames
+The talker node broadcasts a frame /talk with parent /world can be viewed by the following command:
+```
+rosrun tf tf_echo /world /talk
+```
+The tf tree can be viewed by the following command:
+```
+rosrun rqt_tf_tree rqt_tf_tree
+```
+## Running the rostests
+```
+catkin_make tests
+catkin_make test
+```
+## Using launch file to run 
 * Open a terminal
 ```
 roscd && source setup.bash
 ```
-* The launch file will start both the nodes synchronously
+* The launch file will start both the nodes synchronously and by default it does not record any data
 ```
 roslaunch beginner_tutorials beginner_tutorials.launch
 ```
-* You can also change the frequency of the messages being published by providing the value to "frequency" argument, example below publishes messages at 5 Hz
+* You can enable the rosbag record with "record:=true" at the end, it records for a duration of 15 seconds, and also change the frequency of the messages being published by providing the value to "frequency" argument, example below publishes messages at 5 Hz
 ```
-roslaunch beginner_tutorials beginner_tutorials.launch frequency:=5
+roslaunch beginner_tutorials beginner_tutorials.launch frequency:=5 record:=true
 ```
+## Inspecting Rosbag data
+* In the results directory, there is a file ros_talker_listener.bag which was generated when we ran the launch file with record:=true
+* Run the following command to inspect the file:
+```
+rosbag info ros_talker_listener.bag
+```
+* It will give some output like this
+```
+path:        ros_talker_listener.bag
+version:     2.0
+duration:    15.0s
+start:       Nov 14 2021 19:53:53.05 (1636937633.05)
+end:         Nov 14 2021 19:54:08.01 (1636937648.01)
+size:        191.6 KB
+messages:    892
+compression: none [1/1 chunks]
+types:       rosgraph_msgs/Log  [acffd30cd6b6de30f120938c17c593fb]
+             std_msgs/String    [992ce8a1687cec8c8bd883ec73ca41d1]
+             tf2_msgs/TFMessage [94810edda583a504dfda3829e70d7eec]
+topics:      /chatter      148 msgs    : std_msgs/String   
+             /rosout       300 msgs    : rosgraph_msgs/Log  (3 connections)
+             /rosout_agg   296 msgs    : rosgraph_msgs/Log 
+             /tf           148 msgs    : tf2_msgs/TFMessage
+
+```
+* With a roscore and a listener node running, you can play the recorded data to see it publishing
+```
+rosbag play ros_talker_listener.bag
+```
+
 
 ## Service
 * You can change the output string being published by the talker
