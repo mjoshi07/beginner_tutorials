@@ -9,5 +9,8 @@
     <node name="listener_node" pkg="beginner_tutorials" type="listener_node"
         output="screen" 
     />
+    <arg name="record" default="false" />
+    <node name="record" pkg="rosbag" type="record" args="-a -O $(find beginner_tutorials)/results/ros_talker_listener.bag --duration=15"  if="$(arg record)"
+    />    
 
 </launch>
