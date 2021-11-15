@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.13"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Beginner Tutorials: src/talker.cpp File Reference</title>
+<title>ROS Beginner Tutorials: src/talker.cpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -28,10 +28,9 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">Beginner Tutorials
-   &#160;<span id="projectnumber">Week10</span>
+   <div id="projectname">ROS Beginner Tutorials
    </div>
-   <div id="projectbrief">ROS Beginner tutorials for beginners</div>
+   <div id="projectbrief">cool tutorials to learn about ROS</div>
   </td>
  </tr>
  </tbody>
@@ -92,16 +91,10 @@ $(document).ready(function(){initNavTree('talker_8cpp.html','');});
 <p>Initializes a "talker_node" which publishes on topic "/chatter".  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;ros/ros.h&gt;</code><br />
+<code>#include &lt;tf/transform_broadcaster.h&gt;</code><br />
 <code>#include &lt;std_msgs/String.h&gt;</code><br />
 <code>#include &lt;beginner_tutorials/custom_string.h&gt;</code><br />
 <code>#include &lt;sstream&gt;</code><br />
-</div><div class="textblock"><div class="dynheader">
-Include dependency graph for talker.cpp:</div>
-<div class="dyncontent">
-<div class="center"><img src="talker_8cpp__incl.png" border="0" usemap="#src_2talker_8cpp" alt=""/></div>
-<map name="src_2talker_8cpp" id="src_2talker_8cpp">
-</map>
-</div>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
@@ -158,6 +151,7 @@ Variables</h2></td></tr>
 <p>A count of how many messages we have sent. This is used to create a unique string for each message.</p>
 <p>This is a message object. You stuff it with data, and then publish it.</p>
 <p>The publish() function is how you send messages. The parameter is the message object. The type of this object must agree with the type given as a template parameter to the advertise&lt;&gt;() call, as was done in the constructor above.</p>
+<p>Broadcasts a tf frame "talk" with parent "world" with transformation having non-zero translational and rotational components</p>
 
 </div>
 </div>
